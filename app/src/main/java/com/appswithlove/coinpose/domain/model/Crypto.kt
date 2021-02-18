@@ -1,4 +1,4 @@
-package com.appswithlove.coinpose.model
+package com.appswithlove.coinpose.domain.model
 
 import androidx.annotation.DrawableRes
 
@@ -7,5 +7,5 @@ data class Crypto(
     val symbol: String,
     val price: Double,
     val percentChange24h: Double,
-    @DrawableRes val icon: Int
+    val iconUrl: String
 )

@@ -1,7 +1,14 @@
 plugins {
     id 'com.android.application'
     id 'kotlin-android'
+    id 'kotlin-kapt'
+    id 'kotlinx-serialization'
+    id 'dagger.hilt.android.plugin'
+
 }
+
+def localProperties = new Properties()
+localProperties.load(new FileInputStream(rootProject.file("local.properties")))
 
 android {
     compileSdkVersion 30
@@ -13,7 +20,8 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-        buildConfigField("String", "COINMARKETCAP", "\"https://pro-api.coinmarketcap.com/v1/\"")
+        buildConfigField("String", "BASE_URL", "\"https://pro-api.coinmarketcap.com/\"")
+        buildConfigField("String", "CMP_APIKEY", localProperties.COINMARKETCAP_APIKEY)
     }
 
     buildTypes {
@@ -35,7 +43,6 @@ android {
     }
     composeOptions {
         kotlinCompilerExtensionVersion compose_version
-        kotlinCompilerVersion '1.4.30'
     }
 }
 
@@ -52,6 +59,26 @@ dependencies {
     implementation "androidx.compose.ui:ui-tooling:$compose_version"
     implementation "androidx.navigation:navigation-compose:1.0.0-alpha07"
     implementation "androidx.activity:activity-compose:1.3.0-alpha02"
+
+    // Hilt
+    implementation "com.google.dagger:hilt-android:$hilt_version"
+    implementation "androidx.hilt:hilt-navigation:1.0.0-alpha03"
+    kapt "com.google.dagger:hilt-compiler:$hilt_version"
+
+    // Retrofit
+    def retrofit_version = "2.9.0"
+    implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
+    implementation "com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter:0.8.0"
+    implementation "org.jetbrains.kotlinx:kotlinx-serialization-json:1.0.1"
+
+    // OkHttp
+    def okhttp_version = "4.9.0"
+    implementation "com.squareup.okhttp3:okhttp:$okhttp_version"
+    implementation "com.squareup.okhttp3:logging-interceptor:$okhttp_version"
+
+    // UI
+    implementation "dev.chrisbanes.accompanist:accompanist-coil:0.5.1"
+
 
     // Test
     testImplementation 'junit:junit:4.13.2'
