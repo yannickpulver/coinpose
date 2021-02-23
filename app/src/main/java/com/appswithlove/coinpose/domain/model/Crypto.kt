@@ -8,4 +8,7 @@ data class Crypto(
     val price: Double,
     val percentChange24h: Double,
     val iconUrl: String
-)
+) {
+
+    val isUp get() = percentChange24h > 0
+}

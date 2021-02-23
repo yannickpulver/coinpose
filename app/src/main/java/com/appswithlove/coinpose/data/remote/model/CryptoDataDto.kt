@@ -9,6 +9,11 @@ data class CryptoDataDto(
 )
 
 @Serializable
+data class CryptoSingleDataDto(
+    val data: Map<String,List<CryptoDto>>
+)
+
+@Serializable
 data class CryptoDto(
     val id: Int,
     val name: String,
