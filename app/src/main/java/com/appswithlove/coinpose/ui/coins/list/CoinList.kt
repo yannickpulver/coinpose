@@ -12,7 +12,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.navigate
 import com.appswithlove.coinpose.domain.model.Crypto
@@ -23,7 +22,6 @@ import com.appswithlove.coinpose.ui.theme.downColor
 import com.appswithlove.coinpose.ui.theme.upColor
 import dev.chrisbanes.accompanist.coil.CoilImage
 import dev.chrisbanes.accompanist.insets.statusBarsPadding
-import java.text.DecimalFormat
 
 @Composable
 fun CoinList(viewModel: CoinListViewModel, navController: NavHostController) {
@@ -78,8 +76,7 @@ fun CoinListItem(crypto: Crypto) {
             CoilImage(
                 data = crypto.iconUrl, fadeIn = true,
                 contentDescription = "icon of ${crypto.name}",
-                modifier = Modifier
-                    .preferredSize(24.dp)
+                modifier = Modifier.size(24.dp)
             )
         }
         Column(modifier = Modifier.weight(1f)) {

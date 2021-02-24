@@ -50,7 +50,7 @@ fun AppBottomNavigation(
                 icon = { Icon(screen.icon, " ") },
                 label = { Text(stringResource(id = screen.resourceId)) },
                 selected = currentRoute == screen.route,
-                alwaysShowLabels = false, // This hides the title for the unselected items
+                alwaysShowLabel = false, // This hides the title for the unselected items
                 onClick = {
                     // This if check gives us a "singleTop" behavior where we do not create a
                     // second instance of the composable if we are already on that destination

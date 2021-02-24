@@ -51,7 +51,7 @@ private fun CoinContent(navController: NavController, crypto: Crypto) {
                         CoilImage(
                             data = crypto.iconUrl, fadeIn = true,
                             contentDescription = "icon of ${crypto.name}",
-                            modifier = Modifier.padding(end = 8.dp).preferredSize(24.dp)
+                            modifier = Modifier.padding(end = 8.dp).size(24.dp)
                         )
                         Text(text = crypto.name)
                     }
