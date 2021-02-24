@@ -3,7 +3,6 @@ package com.appswithlove.coinpose
 import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.runtime.Composable
@@ -18,6 +17,8 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.appswithlove.coinpose.ui.coins.detail.CoinDetail
 import com.appswithlove.coinpose.ui.coins.list.CoinList
+import com.appswithlove.coinpose.ui.portfolio.Portfolio
+import com.appswithlove.coinpose.ui.settings.Settings
 import com.appswithlove.coinpose.ui.theme.CoinposeTheme
 import dagger.hilt.android.AndroidEntryPoint
 import dev.chrisbanes.accompanist.insets.ProvideWindowInsets
@@ -47,6 +48,8 @@ class MainActivity : AppCompatActivity() {
         val navController = rememberNavController()
         NavHost(navController, startDestination = "coinList") {
             composable("coinList") { CoinList(it.hiltViewModel(), navController) }
+            composable("portfolio") { Portfolio(navController) }
+            composable("settings") { Settings(navController) }
             composable("coinDetail/{symbol}") {
                 CoinDetail(
                     it.hiltViewModel(),

@@ -1,5 +1,6 @@
 package com.appswithlove.coinpose.ui.coins.detail
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
@@ -9,15 +10,18 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.appswithlove.coinpose.domain.model.Crypto
 import com.appswithlove.coinpose.ui.coins.list.CoinListItem
+import com.appswithlove.coinpose.ui.core.Formatter
 import com.appswithlove.coinpose.ui.theme.CoinposeTheme
+import com.appswithlove.coinpose.ui.theme.downColor
+import com.appswithlove.coinpose.ui.theme.upColor
 import dev.chrisbanes.accompanist.coil.CoilImage
-import dev.chrisbanes.accompanist.insets.statusBarsHeight
 import dev.chrisbanes.accompanist.insets.statusBarsPadding
 
 
@@ -40,7 +44,10 @@ private fun CoinContent(navController: NavController, crypto: Crypto) {
         topBar = {
             TopAppBar(
                 title = {
-                    Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.fillMaxWidth()) {
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
+                        modifier = Modifier.fillMaxWidth()
+                    ) {
                         CoilImage(
                             data = crypto.iconUrl, fadeIn = true,
                             contentDescription = "icon of ${crypto.name}",
@@ -57,7 +64,8 @@ private fun CoinContent(navController: NavController, crypto: Crypto) {
                     }
                 },
                 modifier = Modifier.statusBarsPadding(),
-                elevation = 0.dp
+                elevation = 0.dp,
+                backgroundColor = MaterialTheme.colors.background
             )
         }
     ) {
@@ -67,7 +75,13 @@ private fun CoinContent(navController: NavController, crypto: Crypto) {
         ) {
         }
 
-        CoinListItem(crypto = crypto)
+        Column(horizontalAlignment = Alignment.Start, modifier = Modifier.padding(horizontal = 16.dp)) {
+            Text(text = Formatter.price(crypto.price), style = MaterialTheme.typography.h2)
+            Text(
+                text = Formatter.price(crypto.percentChange24h),
+                color = if (crypto.isUp) upColor else downColor
+            )
+        }
     }
 }
 

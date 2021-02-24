@@ -4,9 +4,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
-import androidx.compose.material.Divider
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
+import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -15,8 +13,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import androidx.navigation.NavHostController
 import androidx.navigation.compose.navigate
 import com.appswithlove.coinpose.domain.model.Crypto
+import com.appswithlove.coinpose.ui.coins.AppBottomNavigation
+import com.appswithlove.coinpose.ui.core.Formatter
 import com.appswithlove.coinpose.ui.theme.CoinposeTheme
 import com.appswithlove.coinpose.ui.theme.downColor
 import com.appswithlove.coinpose.ui.theme.upColor
@@ -25,11 +26,27 @@ import dev.chrisbanes.accompanist.insets.statusBarsPadding
 import java.text.DecimalFormat
 
 @Composable
-fun CoinList(viewModel: CoinListViewModel, navController: NavController) {
-
+fun CoinList(viewModel: CoinListViewModel, navController: NavHostController) {
     val cryptos: List<Crypto> by viewModel.cryptoItems.collectAsState()
 
-    Box(modifier = Modifier.statusBarsPadding()) {
+    Scaffold(
+        topBar = {
+            TopAppBar(
+                title = {
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
+                        modifier = Modifier.fillMaxWidth()
+                    ) {
+                        Text(text = "Coinpose")
+                    }
+                },
+                modifier = Modifier.statusBarsPadding(),
+                elevation = 0.dp,
+                backgroundColor = MaterialTheme.colors.background
+            )
+        },
+        bottomBar = { AppBottomNavigation(navController) }
+    ) {
         LazyColumn {
             itemsIndexed(cryptos) { index, crypto ->
                 Box(modifier = Modifier.clickable {
@@ -48,8 +65,6 @@ fun CoinList(viewModel: CoinListViewModel, navController: NavController) {
 
 @Composable
 fun CoinListItem(crypto: Crypto) {
-    val dec = DecimalFormat("#,##0.00")
-
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -72,9 +87,9 @@ fun CoinListItem(crypto: Crypto) {
             Text(text = crypto.symbol)
         }
         Column(horizontalAlignment = Alignment.End) {
-            Text(text = "$${dec.format(crypto.price)}", style = MaterialTheme.typography.h4)
+            Text(text = Formatter.price(crypto.price), style = MaterialTheme.typography.h4)
             Text(
-                text = "${dec.format(crypto.percentChange24h)}%",
+                text = Formatter.percent(crypto.percentChange24h),
                 color = if (crypto.isUp) upColor else downColor
             )
         }
